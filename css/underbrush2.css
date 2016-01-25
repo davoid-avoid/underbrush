@@ -1,0 +1,342 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+#title {
+	font-weight: 400;
+	text-align: center;
+	font-family: 'Amatic SC', cursive;
+	font-size: 73pt;
+	line-height: 15pt;
+	height: 160px;
+	width: 100%;
+	margin-top: 20px;
+}
+
+#title2 {
+	font-weight: 400;
+	text-align: center;
+	font-family: 'Amatic SC', cursive;
+	font-size: 73pt;
+	line-height: 15pt;
+	height: 160px;
+	width: 100%;
+	margin-top: 30px;
+	line-height: 80pt;
+}
+
+#hand {
+	width: 600px;
+	height: 160px;
+	position: relative;
+	margin: 0 auto;
+	bottom: 0;
+}
+
+#sequence {
+	width: 400px;
+	height: 160px;
+	position: relative;
+	margin: 0 auto;
+	bottom: 0;
+}
+
+#infocard {
+	width: 600px;
+	position: relative;
+	margin: 0 auto;
+	bottom: 0;
+	margin-top: 40px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+}
+
+#infocard p {
+	cursor: pointer;
+}
+
+#cardsremaining {
+	text-align: center;
+	height: 20px;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	position: relative;
+	float: right;
+	margin-right: 20px;
+}
+
+#scorecard {
+	height: 20px;
+    font-family: 'Open Sans', sans-serif;
+    position: absolute;
+    float: left;
+    color: white;
+    margin-left: 60px;
+}
+
+#scorecard img{
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
+.scoretext {
+	font-size: 10pt;
+	margin-top: 18px;
+	margin-left: 10px;
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	float: left;
+	position: relative;
+}
+
+.card {
+	width: 100px;
+	height: 150px;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-radius:20px;
+	transition: transform 0.5s;
+	display: none;
+	box-shadow: 3px 3px 5px #404040;
+	cursor: pointer;
+}
+
+.card:hover {
+	box-shadow: 5px 5px 5px #404040;
+}
+
+.unrotate {
+	-ms-transform: rotateY(90deg);
+   	-webkit-transform: rotateY(90deg);
+	transform: rotateY(90deg);
+}
+
+.card p {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	margin-top: 155px;
+}
+
+#preview {
+	text-align: center;
+}
+
+#cardpreviewinstruction {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	position: relative;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+#okdone {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	position: relative;
+	width: 100%;
+	margin: 0 auto;
+	bottom: 0;
+	cursor: pointer;
+}
+
+#select1{
+	box-shadow: 5px 5px 5px #000000;
+}
+
+#selectedcard{
+	box-shadow: 5px 5px 5px #000000;
+}
+
+#selectedsnipe{
+	box-shadow: 5px 5px 5px #000000;
+}
+
+.cardprev {
+	width: 100px;
+	height: 150px;
+	float: left;
+	margin-left: 15px;
+	margin-right: 15px;
+	border-radius:20px;
+	margin-bottom: 10px;
+	box-shadow: 3px 3px 5px #404040;
+	cursor: pointer;
+}
+
+.cardprev:hover {
+	box-shadow: 5px 5px 5px #404040;
+}
+
+.cardprev p {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	margin-top: 155px;
+}
+
+.cardprev2 {
+	width: 100px;
+	height: 150px;
+	float: left;
+	margin-left: 20px;
+	margin-right: 20px;
+	border-radius:20px;
+	margin-bottom: 10px;
+	box-shadow: 3px 3px 5px #404040;
+	cursor: pointer;
+}
+
+.cardprev2:hover {
+	box-shadow: 5px 5px 5px #404040;
+}
+
+.cardprev2 p {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	margin-top: 155px;
+}
+
+.cardsequence {
+	width: 100px;
+	height: 150px;
+	float: left;
+	margin-left: -90px;
+	border-radius:20px;
+	box-shadow: 0px 0px 5px #404040;
+}
+
+.cardsequence p {
+	margin-top: -30px;
+	margin-left: -50px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+	width: 180px;
+}
+
+
+.green {
+	background-color: YellowGreen;
+}
+
+.orange {
+	background-color: DarkOrange;
+}
+
+.blue {
+	background-color: RoyalBlue;
+}
+
+.purple {
+	background-color: MediumPurple;
+}
+
+.yellow {
+	background-color: Gold;
+}
+
+.ghost {
+	background-color: black;
+}
+
+.leaf {
+	background-image: URL("../img/leaf.png");
+}
+
+.twig {
+	background-image: URL("../img/twig.png");
+}
+
+.spirit {
+	background-image: URL("../img/spirit2.png");
+}
+
+.god {
+	background-image: URL("../img/god2.png");
+}
+
+.bad {
+	background-image: URL("../img/ghost2.png");
+}
+
+.dead {
+	background-color: DarkSlateGray;
+}
+
+.end {
+	background-image: URL("../img/end.png");
+}
+
+.option {
+	color: black;
+	border: 1px solid #bfbfbf;
+	padding: 5px;
+	transition: all 0.6s ease;
+	width: 270px;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.option:hover {
+	color: white;
+	border: 1px solid #333333;
+	padding: 5px;
+	background-color: #333333;
+}
+
+#topmenu {
+	width: 100%;
+	position: relative;
+	height: 50px;
+	background-color: black;
+	margin-bottom: 20px;
+	display: none;
+}
+
+#menubutton {
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	margin-left: 8px;
+	margin-top: 8px;
+	background-image: URL("../img/menu.png");
+	-webkit-transition: -webkit-transform .8s ease-in-out;
+    -ms-transition: -ms-transform .8s ease-in-out;
+    transition: transform .8s ease-in-out;
+}
+
+#menubutton:hover {
+    -webkit-transform:rotate(360deg);
+    -moz-transform:rotate(360deg);
+    -o-transform:rotate(360deg);
+}
+
+#lamp1 {
+	position: absolute;
+	top: 50;
+	right: 30;
+	display: none;
+	width: 100px;
+	height: 150px;
+	background-image: URL("../img/lamp3.png");
+	z-index: 2;
+}
+
+#lamp2 {
+	position: absolute;
+	top: 50;
+	right: 30;
+	opacity: 100%;
+	display: none;
+	width: 100px;
+	height: 150px;
+	background-image: URL("../img/lamp2.png");
+	z-index: 1;
+}
+
+
