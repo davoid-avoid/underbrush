@@ -1,6 +1,8 @@
 //initial variables
 var hardwin = 0;
 var caption = false;
+var interval = 0;
+var doomtimer = false;
 
 var unbr = {};
 
@@ -39,6 +41,7 @@ unbr.init = function(){
     unbr.playinghard = false;
     unbr.playingmaster = false;
     unbr.ghostcount = 0;
+    unbr.counter = 6;
 };
 
 
@@ -217,11 +220,15 @@ function win() {
     $("#preview").append("<div id='cardpreviewinstruction'><p>You got all 8! You won with " + unbr.drawdeck.length + " cards left in the deck.</p></div>");
     notificationcloseclick();
         unbr.gameover = true;
+        if (doomtimer === true){
+        $("#doomcount").empty();
+        clearInterval(interval);
+    }
     if (unbr.playinghard === true){
         hardwin++;
     }
     if (hardwin === 1 && unbr.playingeasy === false && unbr.playingmaster === false){
-        $("#cardpreviewinstruction").append("<p><b>Master mode unlocked!</b></p>");
+        $("#cardpreviewinstruction").append("<p><b>Master Mode and Doom Timer unlocked!</b></p>");
     }
     if (unbr.playingeasy === true){
         $("#infocard").append("<br><p class='option' id='easy'>Play Again?</p>");    
@@ -244,6 +251,10 @@ function loss() {
     $("#preview").append("<div id='cardpreviewinstruction'><p>Oh no! You lost! Try again!</p></div>");
     notificationcloseclick();
         unbr.gameover = true;
+        if (doomtimer === true){
+        $("#doomcount").empty();
+        clearInterval(interval);
+    }
 
     if (unbr.playingeasy === true){
         $("#infocard").append("<br><p class='option' id='easy'>Play Again?</p>");    
@@ -422,6 +433,11 @@ $(document).on('click', '.card', function() {
                 unbr.droppingspirit = false;
                 $("#infocard").empty();
                 drawcard();
+                if (doomtimer === true){
+                    clearInterval(interval);
+                    unbr.counter = 6;
+                    counter();
+                }
             } else {
             $("#infocard").empty();
             $("#infocard").append("<p>That isn't a Spirit card. Please select a Spirit card.<br></p>");
@@ -443,6 +459,11 @@ $(document).on('click', '.card', function() {
                 unbr.spiritcolour = false;
                 unbr.score++;
                 godindicator();
+                if (doomtimer === true){
+                    clearInterval(interval);
+                    unbr.counter = 6;
+                    counter();
+                }
                 drawcard();
             }
         }
@@ -832,6 +853,11 @@ $(document).on('click', '#rules', function() {
 
 $(document).on('click', '#discardplay', function() {
 	discardcard();
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
 	$("#infocard").empty();
 });
 
@@ -839,6 +865,11 @@ $(document).on('click', '#discardplay', function() {
 
 $(document).on('click', '#sequenceplay', function() {
 	$("#infocard").empty();
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     sequenceadd();
 });
 
@@ -847,6 +878,11 @@ $(document).on('click', '#sequenceplay', function() {
 $(document).on('click', '#drophand', function() {
    discardhand();
    unbr.ghostpresent = false;
+   if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     $("#infocard").empty();
 });
 
@@ -872,6 +908,11 @@ $(document).on('click', '#ghostcancel', function() {
 $(document).on('click', '#dropunseen', function() {
     $("#hand div:last").remove()
     unbr.ghostpresent = false;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     $("#infocard").empty();
     dropunseen();
 });
@@ -884,6 +925,11 @@ $(document).on('click', '#godshuffle', function() {
     $("#hand div:last").remove()
     unbr.godpresent = false;
     unbr.spiritcolour = false;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     $("#infocard").empty();
     $("#infocard").append("<p>The God whisks you off to a new place in the forest.</p>");
     if (unbr.hand.length < 5){
@@ -902,6 +948,10 @@ $(document).on('click', '#godshuffle', function() {
 $(document).on('click', '#spiritplay', function() {
     $("#infocard").empty();
     unbr.sniping = true;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+    }
     spiritpower();
 });
 
@@ -927,6 +977,11 @@ $(document).on('click', '#okdone', function() {
     unbr.swapselect1 = 0;
     unbr.swapselect2 = 0;
     unbr.click1 = 0;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     drawcard();
 });
 
@@ -1066,6 +1121,11 @@ $(document).on('click', '#easy', function() {
     $("#lamp1").fadeIn(300);
     easy();
     unbr.playingeasy = true;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     shuffle(unbr.drawdeck);
     unbr.lamptotal = unbr.drawdeck.length - 5;
     unbr.lamppercent = 1;
@@ -1080,6 +1140,11 @@ $(document).on('click', '#hard', function() {
     $("#lamp1").fadeIn(300);
     hard();
     unbr.playinghard = true;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     shuffle(unbr.drawdeck);
     unbr.lamptotal = unbr.drawdeck.length - 5;
     unbr.lamppercent = 1;
@@ -1094,6 +1159,11 @@ $(document).on('click', '#master', function() {
     $("#lamp1").fadeIn(300);
     master();
     unbr.playingmaster = true;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 6;
+        counter();
+    }
     shuffle(unbr.drawdeck);
     unbr.lamptotal = unbr.drawdeck.length - 5;
     unbr.lamppercent = 1;
@@ -1110,11 +1180,24 @@ $(document).on('click', '#menubutton', function() {
     $("#hand").hide();
     $("#preview").empty();
     $("#topmenu").hide();
+    if (doomtimer === true){
+        $("#doomcount").empty();
+        clearInterval(interval);
+    }
+    unbr.playingeasy = false;
+    unbr.playinghard = false;
+    unbr.playingmaster = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<br><p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
     } else {
-        $("#infocard").append("<br><p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+    }
+    if (doomtimer === false && hardwin >= 1){
+        $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
+    }
+    if (doomtimer === true && hardwin >= 1){
+        $("#infocard").append("<p id='doomoff' class='option'>Turn Doom Timer Off</p>");
     }
     if (caption === false){
         $("#infocard").append("<p id='captionon' class='option'>Turn On Colour Description</p>");
@@ -1135,11 +1218,24 @@ $(document).on('click', '#menu', function() {
     $("#hand").hide();
     $("#preview").empty();
     $("#topmenu").hide();
+    if (doomtimer === true){
+        $("#doomcount").empty();
+        clearInterval(interval);
+    }
+    unbr.playingeasy = false;
+    unbr.playinghard = false;
+    unbr.playingmaster = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<br><p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
     } else {
-        $("#infocard").append("<br><p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+    }
+    if (doomtimer === false && hardwin >= 1){
+        $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
+    }
+    if (doomtimer === true && hardwin >= 1){
+        $("#infocard").append("<p id='doomoff' class='option'>Turn Doom Timer Off</p>");
     }
     if (caption === false){
         $("#infocard").append("<p id='captionon' class='option'>Turn On Colour Description</p>");
@@ -1164,6 +1260,50 @@ $(document).on('click', '#captionoff', function() {
     caption = false;
     $("#captionoff").replaceWith("<p id='captionon' class='option'>Turn On Colour Description</p>");
 });
+
+$(document).on('click', '#doomon', function() {
+    doomtimer = true;
+    $("#doomon").replaceWith("<p id='doomoff' class='option'>Turn Doom Timer Off</p>");
+});
+
+$(document).on('click', '#doomoff', function() {
+    doomtimer = false;
+    $("#doomoff").replaceWith("<p id='doomon' class='option'>Turn Doom Timer On</p>");
+});
+
+function doomcount(){
+    if (unbr.counter === 6 && unbr.godpresent == false && unbr.ghostpresent == false && unbr.gameover === false){
+        interval = setInterval(function() {
+        if (unbr.godpresent === false && unbr.ghostpresent === false && unbr.gameover === false){
+        ghostcheck();
+        godcheck();
+        unbr.counter--;
+        $("#doomcount").replaceWith("<div id='doomcount'><p>" + unbr.counter + "</p></div>")
+        if (unbr.counter === 0) {
+            if (unbr.hand[4][0] === "dead") {
+                discardhand();
+            } else {
+            unbr.discard.unshift(unbr.hand[4]);
+            unbr.hand.splice(4, 1);
+            $(".card").slice(0, 1).fadeOut(200);
+            $(".card").slice(0, 1).remove();
+            $("#infocard").empty();
+            }
+            drawcard();
+            clearInterval(interval);
+            unbr.counter = 6;
+            doomcount();
+        }
+        }
+}, 1000);
+}
+}
+
+function counter(){
+if (unbr.playingeasy === true || unbr.playinghard === true || unbr.playingmaster === true){
+    doomcount();
+}
+}
 
 
 $(function(){

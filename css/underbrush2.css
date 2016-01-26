@@ -339,4 +339,16 @@ html, body {
 	z-index: 1;
 }
 
+#doomcount{
+	position: absolute;
+	top: 30;
+	left: 10;
+	opacity: 100%;
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 30pt;
+}
+
 
