@@ -311,6 +311,7 @@ function findremovegod() {
             unbr.scoring.unshift(unbr.drawdeck[i]);
             unbr.drawdeck.splice(i, 1);
             godindicator();
+            $("#infocard").append("<p>The God whisks you off to a new place in the forest.</p>");
             shuffle(unbr.drawdeck);
             unbr.found = true;
             unbr.colourgrab = 0;
@@ -884,6 +885,7 @@ $(document).on('click', '#godshuffle', function() {
     unbr.godpresent = false;
     unbr.spiritcolour = false;
     $("#infocard").empty();
+    $("#infocard").append("<p>The God whisks you off to a new place in the forest.</p>");
     if (unbr.hand.length < 5){
         for (i = unbr.hand.length; i <= 5; i++){
             if (unbr.ghostpresent == false && unbr.godpresent == false){
