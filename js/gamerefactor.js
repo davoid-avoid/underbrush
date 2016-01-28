@@ -5,6 +5,7 @@ var interval = 0;
 var doomtimer = false;
 
 var unbr = {};
+var unbrtut = {};
 
 unbr.init = function(){
     unbr.click1 = 0;
@@ -40,9 +41,25 @@ unbr.init = function(){
     unbr.playingeasy = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
+    unbr.playingtutorial = false;
     unbr.ghostcount = 0;
-    unbr.counter = 6;
+    unbr.counter = 5;
 };
+
+unbrtut.init = function(){
+    unbrtut.step1 = false;
+    unbrtut.step2 = false;
+    unbrtut.step3 = false;
+    unbrtut.step4 = false;
+    unbrtut.step5 = false;
+    unbrtut.step6 = false;
+    unbrtut.step7 = false;
+    unbrtut.step8 = false;
+    unbrtut.step9 = false;
+    unbrtut.step10 = false;
+    unbrtut.step11 = false;
+    unbrtut.step12 = false;
+}
 
 
 //shuffles the deck
@@ -84,7 +101,6 @@ function drawhandstart() {
         }
         limboshuffle();
         } else {
-            console.log("fixing ghost problem");
             unbr.ghostpresent = false;
             unbr.godpresent = false;
             drawcard();
@@ -323,7 +339,9 @@ function findremovegod() {
             unbr.drawdeck.splice(i, 1);
             godindicator();
             $("#infocard").append("<p>The God whisks you off to a new place in the forest.</p>");
-            shuffle(unbr.drawdeck);
+            if (unbr.playingtutorial != true){
+                shuffle(unbr.drawdeck);
+            }
             unbr.found = true;
             unbr.colourgrab = 0;
         }
@@ -339,6 +357,7 @@ function discardcard() {
     $(".card").slice(unbr.normselect, unbr.normselect+1).fadeOut(200);
     $(".card").slice(unbr.normselect, unbr.normselect+1).remove();
     drawcard();
+
 }
 
 //discarding the players hand
@@ -375,6 +394,10 @@ function sequenceadd() {
     	 $(".card").slice(unbr.normselect, unbr.normselect+1).remove();
     	sequencecheck();
     	drawcard();
+
+        if(unbr.playingtutorial === true){
+            tutorialimmediate();
+        }
 }
 
 //checks if the last 3 cards in the sequence are the same colour or not
@@ -435,7 +458,7 @@ $(document).on('click', '.card', function() {
                 drawcard();
                 if (doomtimer === true){
                     clearInterval(interval);
-                    unbr.counter = 6;
+                    unbr.counter = 5;
                     counter();
                 }
             } else {
@@ -461,7 +484,7 @@ $(document).on('click', '.card', function() {
                 godindicator();
                 if (doomtimer === true){
                     clearInterval(interval);
-                    unbr.counter = 6;
+                    unbr.counter = 5;
                     counter();
                 }
                 drawcard();
@@ -735,14 +758,26 @@ function cardchoice() {
     ghostcheck();
     godcheck();
     cardcount();
-    if(unbr.gameover == false) {
-	   if(unbr.ghostpresent === false && unbr.godpresent === false){
-            standardoption();
-        } else if(unbr.ghostpresent == true){
-            ghostoption();
-	    } else if (unbr.godpresent === true){
-            godoption();
-       }
+    if (unbr.playingtutorial === true && unbrtut.step13 != true){
+        if(unbr.ghostpresent === false && unbr.godpresent === false){
+        tutorialbranches();
+    } else if (unbr.godpresent === true){
+        tutorialgod();
+    }
+    } else {
+        unbrtut.step12 = false;
+        if(unbr.gameover == false) {
+	       if(unbr.ghostpresent === false && unbr.godpresent === false){
+                standardoption();
+            } else if(unbr.ghostpresent == true && unbrtut.step13 === true){
+                tutorialchoices();
+            }
+             else if(unbr.ghostpresent == true){
+                ghostoption();
+	        } else if (unbr.godpresent === true){
+                godoption();
+            }
+        }
     }
 }
 
@@ -855,10 +890,13 @@ $(document).on('click', '#discardplay', function() {
 	discardcard();
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
 	$("#infocard").empty();
+    if(unbr.playingtutorial === true){
+        tutorialimmediate();
+    }
 });
 
 //runs the sequence addition functions
@@ -867,7 +905,7 @@ $(document).on('click', '#sequenceplay', function() {
 	$("#infocard").empty();
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     sequenceadd();
@@ -880,7 +918,7 @@ $(document).on('click', '#drophand', function() {
    unbr.ghostpresent = false;
    if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     $("#infocard").empty();
@@ -910,7 +948,7 @@ $(document).on('click', '#dropunseen', function() {
     unbr.ghostpresent = false;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     $("#infocard").empty();
@@ -920,6 +958,7 @@ $(document).on('click', '#dropunseen', function() {
 //shuffle god back into deck
 
 $(document).on('click', '#godshuffle', function() {
+    if (unbr.playingtutorial != true){
     unbr.limbo.unshift(unbr.hand[0]);
     unbr.hand.shift();
     $("#hand div:last").remove()
@@ -927,7 +966,7 @@ $(document).on('click', '#godshuffle', function() {
     unbr.spiritcolour = false;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     $("#infocard").empty();
@@ -941,6 +980,15 @@ $(document).on('click', '#godshuffle', function() {
             }
         }
     }
+    } else {
+       unbr.drawdeck.push(unbr.hand[0]);
+       unbr.hand.shift();
+       $("#hand div:last").remove();
+       $("#infocard").empty();
+        unbr.godpresent = false;
+        unbr.spiritcolour = false; 
+        drawcard();
+    }
 });
 
 //begins spirit power
@@ -950,9 +998,10 @@ $(document).on('click', '#spiritplay', function() {
     unbr.sniping = true;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
     }
     spiritpower();
+    
 });
 
 //use a spirit to score a god
@@ -979,10 +1028,13 @@ $(document).on('click', '#okdone', function() {
     unbr.click1 = 0;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     drawcard();
+    if(unbr.playingtutorial === true){
+        tutorialimmediate();
+    }
 });
 
 $(document).on('click', '#deadend', function() {
@@ -1071,6 +1123,57 @@ function easy(){
 
 }
 
+function tutorial(){
+    $("#hand").empty();
+    $("#sequence").empty();
+    $("#cardsremaining").empty();
+    $("#scorecard").empty();
+    $("#infocard").empty();
+    
+    unbr.init();
+    unbr.hardplay = false;
+    function addCards(cardType,numOfCards){
+        for (var i = numOfCards; i >= 1; i--) {
+            unbr.drawdeck.push(cardType);
+        };
+    }
+    addCards(['green', 'leaf'],6);
+    addCards(['green', 'twig'],1);
+    addCards(['purple', 'leaf'],1);
+    addCards(['blue', 'leaf'],1);
+    addCards(['blue', 'spirit'],1);
+    addCards(['blue', 'twig'],1);
+    addCards(['orange', 'twig'],1);
+    addCards(['green', 'god'],1);
+    addCards(['blue', 'god'],1);
+    addCards(['purple', 'twig'],1);
+    addCards(['orange', 'twig'],1);
+    addCards(['green', 'spirit'],1);
+    addCards(['orange', 'spirit'],1);
+    addCards(['purple', 'twig'], 1);
+    addCards(['green', 'twig'], 1);
+    addCards(['green', 'god'],1);
+    addCards(['purple', 'leaf'],1);
+    addCards(['blue', 'leaf'],1);
+    addCards(['purple', 'twig'],1);
+    addCards(['orange', 'twig'],1);
+    addCards(['ghost', 'bad'],4);
+    addCards(['purple', 'god'],1);
+    addCards(['blue', 'god'],1);
+    addCards(['orange', 'god'],1);
+        addCards(['purple', 'leaf'],1);
+    addCards(['blue', 'leaf'],1);
+    addCards(['purple', 'twig'],1);
+    addCards(['orange', 'twig'],1);
+        addCards(['purple', 'leaf'],1);
+    addCards(['blue', 'leaf'],1);
+    addCards(['purple', 'twig'],1);
+    addCards(['orange', 'twig'],1);
+
+
+
+}
+
 function master(){
     $("#hand").empty();
     $("#sequence").empty();
@@ -1123,7 +1226,7 @@ $(document).on('click', '#easy', function() {
     unbr.playingeasy = true;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     shuffle(unbr.drawdeck);
@@ -1142,7 +1245,7 @@ $(document).on('click', '#hard', function() {
     unbr.playinghard = true;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     shuffle(unbr.drawdeck);
@@ -1161,7 +1264,7 @@ $(document).on('click', '#master', function() {
     unbr.playingmaster = true;
     if (doomtimer === true){
         clearInterval(interval);
-        unbr.counter = 6;
+        unbr.counter = 5;
         counter();
     }
     shuffle(unbr.drawdeck);
@@ -1187,11 +1290,12 @@ $(document).on('click', '#menubutton', function() {
     unbr.playingeasy = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
+    unbr.playingtutorial = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     } else {
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     }
     if (doomtimer === false && hardwin >= 1){
         $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
@@ -1225,11 +1329,12 @@ $(document).on('click', '#menu', function() {
     unbr.playingeasy = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
+    unbr.playingtutorial = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     } else {
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='rules' class='option'>Rules</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     }
     if (doomtimer === false && hardwin >= 1){
         $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
@@ -1272,7 +1377,7 @@ $(document).on('click', '#doomoff', function() {
 });
 
 function doomcount(){
-    if (unbr.counter === 6 && unbr.godpresent == false && unbr.ghostpresent == false && unbr.gameover === false){
+    if (unbr.counter === 5 && unbr.godpresent == false && unbr.ghostpresent == false && unbr.gameover === false){
         interval = setInterval(function() {
         if (unbr.godpresent === false && unbr.ghostpresent === false && unbr.gameover === false){
         ghostcheck();
@@ -1291,7 +1396,7 @@ function doomcount(){
             }
             drawcard();
             clearInterval(interval);
-            unbr.counter = 6;
+            unbr.counter = 5;
             doomcount();
         }
         }
@@ -1305,7 +1410,251 @@ if (unbr.playingeasy === true || unbr.playinghard === true || unbr.playingmaster
 }
 }
 
+//Tutorial stuff
+
+$(document).on('click', '#tutorial', function() {
+    $("#infobox").empty();
+    $("#topmenu").fadeIn(300);
+    $("#lamp2").fadeIn(800);
+    $("#lamp1").fadeIn(300);
+    tutorial();
+    unbr.lamptotal = unbr.drawdeck.length - 5;
+    unbr.lamppercent = 1;
+    lampfade();
+    drawhandstart();
+    $("#infocard").append("<p>Hi! Welcome to Underbrush. In this game, you are lost a forest of Gods, Spirits and Ghosts. You will need to find 8 Gods before the deck runs out to win. To do this, you need to play 3 cards of the same colour in a row. The trick being that you can never play the same symbol twice in a row. The cards above are your hard. Try clicking one of them.<p>");
+    unbrtut.step1 = true;
+    console.log(unbrtut.step1);
+    unbr.playingtutorial = true;
+    console.log(unbr.playingtutorial + " playing tutorial");
+});
+
+function tutorialchoices(){
+    $('#selectedcard').attr('id','');
+    $(unbr.selectedcard).attr('id', 'selectedcard');
+    unbr.selectedcard = 0;
+    if (unbrtut.step1 === true){
+    $("#infocard").append("<p>When you select a card, you can either play it into the game sequence, or discard it. For now, let's play this card.</p>");
+     $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
+    }
+    if (unbrtut.step2 === true){
+        $("#infocard").append("<p>Great! Now, because we cannot play two leaves in a row, and we do not have any other kinds of cards, we're going to be forced to discard something. Click a card to discard it.</p>");
+
+    }
+    if (unbrtut.step3 === true){
+        $("#infocard").empty();
+        $("#infocard").append("<p>What would you like to do with this card?</p>");
+        $("#infocard").append("<p id='discardplay' class='option'>Discard and draw new card</p>");
+    }
+    if (unbrtut.step4 === true){
+        console.log("step 4");
+        $("#infocard").empty();
+        $("#infocard").append("<p>Hey look! A twig! Let's select that and play that into our sequence. This is a legal move because it is not the same symbol as the leaf.</p>");
+
+    }
+    if (unbrtut.step5 === true  && unbr.hand[unbr.selected[0]][1] === 'twig'){
+        console.log("step 5");
+        $("#infocard").empty();
+        $("#infocard").append("<p>If we play this green twig into our sequence, we will be 2/3 of the way to scoring our first God.</p>");
+        $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
+    } else if (unbrtut.step5 === true  && unbr.hand[unbr.selected[0]][1] === 'twig'){
+        tutoriachoices();
+    }
+    if (unbrtut.step6 === true){
+        console.log("step 6");
+        $("#infocard").empty();
+        $("#infocard").append("<p>Great! Now we can just play another leaf to score our first God.</p>");
+    }
+    if (unbrtut.step7 === true){
+        console.log("step 7");
+        $("#infocard").empty();
+        $("#infocard").append("<p>If we play this green leaf into our sequence, we will have scored our first God of the game.</p>");
+        $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
+    }
+    if (unbrtut.step8 === true){
+        unbrtut.step7 = false;
+        console.log("step 8");
+        $("#infocard").empty();
+        $("#infocard").append("<p>Fantastic! We've scored our first God! We need to score 8 of them, before the deck runs out of cards, to win. There are 2 of each colour. There are 4 colours in the game. We can't do much at the moment because we only have leaves. We could play a twig if we had one, even one of a different colour! But we unfortunately do not, so discard something else and maybe we will get something more useful.</p>");
+    }
+    if (unbrtut.step9 === true){
+        $("#infocard").empty();
+        $("#infocard").append("<p>What would you like to do with this card?</p>");
+        $("#infocard").append("<p id='discardplay' class='option'>Discard and draw new card</p>");
+    }
+    if (unbrtut.step10 === true){
+        $("#infocard").empty();
+        $("#infocard").append("<p>Ah, we have received a very special card. This is a spirit card. It has many uses. We can play it into a sequence, as it is a symbol just like leaves and twigs are symbols, but, it also has some special powers. We can use the spirits powers if we click it.</p>");
+    }
+    if (unbrtut.step11 === true){
+        $("#infocard").empty();
+        $("#infocard").append("<p>Spirits have very special powers. They can see ahead into the future to the next 5 cards that will be drawn. They must then discard one of these cards, but they may re-arrange the remaining cards to their liking. Use this card to see into the future. You will see many twigs. Choose one to discard, and then re-arrange the rest as you prefer.</p>");
+        $("#infocard").append("<p id='spiritplay' class='option'>Use spirit power</p>");
+    }
+    if (unbrtut.step12 === true){
+    if (unbr.hand[0][1] != "god"){
+        $("#infocard").empty();
+        $("#infocard").append("<p>You may have seen something odd in those 5 cards. That was another God. Gods can be pulled into your hand, but if you do draw one, you must reshuffle it immediately, UNLESS you have a spirit of the same colour in your hand. If you do have one, you can actually score the God immediately without having to build a 3 colour in a row sequence. For now, just play a few more cards. You've almost learned the basics of the game.</p>");
+        unbrtut.step13 = true;
+    }
+    else if (unbr.hand[0][1] == "god"){
+        $("#infocard").empty();
+        $("#infocard").append("<p>You seem to have found a God amongst the twigs. Gods reside in the deck like any other card. If you draw one, it must be reshuffled into the deck immediately, UNLESS you have a spirit of the same colour in your hand. If you do have one, you can actually score the God immediately without having to build a 3 colour in a row sequence. Shuffle it back in and proceed to play the remaining cards.</p>");
+        $("#infocard").append("<p id='godshuffle' class='option'>Shuffle it back into the deck and draw a new card<br></p>");
+        unbrtut.step13 = true;
+    }
+    }
+    if (unbrtut.step12 != true && unbr.godpresent === true){
+        $("#infocard").append("<p>A God has appeared before you<br></p>");
+        $("#infocard").append("<p id='godshuffle' class='option'>Shuffle it back into the deck and draw a new card<br></p>");
+    }
+    if (unbrtut.step13 === true && unbr.hand[0][0] === 'ghost'){
+        $("#infocard").empty();
+        $("#infocard").append("<p>Oh no! A Ghost! Ghosts roam the forest, attempting to prevent you from reaching Gods. When you encounter a Ghost, you have a few options: Discard your hand, discard the next 5 cards from the deck, or discard a spirit if you have one.</p>");
+        for (var i = 0, j = unbr.hand.length - 1; i <= j; i++) {
+                    if (unbr.hand[i][1] === 'spirit') {
+                    var spirithere = true;
+                }
+            }
+            if (spirithere === true){
+                $("#infocard").append("<p id='donetut1' class='option donetutorial'>Discard a spirit card to escape<br></p>");
+            }
+            if (unbr.drawdeck.length > 4){
+            $("#infocard").append("<p id='donetut2' class='option donetutorial'>Discard entire hand<br></p>"); 
+        } if (unbr.drawdeck.length > 4){
+            $("#infocard").append("<p id='donetut3' class='option donetutorial'>Discard the next 5 unseen cards<br></p>");
+        }
+    }
+}
+
+function tutorialgod(){
+    if (unbrtut.step12 === true){
+    if (unbr.hand[0][1] != "god"){
+        $("#infocard").empty();
+        $("#infocard").append("<p>You may have seen something odd in those 5 cards. That was another God. Gods can be pulled into your hand, but if you do draw one, you must reshuffle it immediately, UNLESS you have a spirit of the same colour in your hand. If you do have one, you can actually score the God immediately without having to build a 3 colour in a row sequence. For now, just play a few more cards. You've almost learned the basics of the game.</p>");
+        unbrtut.step13 = true;
+    }
+    else if (unbr.hand[0][1] == "god"){
+        $("#infocard").empty();
+        $("#infocard").append("<p>You seem to have found a God amongst the twigs. Gods reside in the deck like any other card. If you draw one, it must be reshuffled into the deck immediately, UNLESS you have a spirit of the same colour in your hand. If you do have one, you can actually score the God immediately without having to build a 3 colour in a row sequence. Shuffle it back in and proceed to play the remaining cards.</p>");
+        $("#infocard").append("<p id='godshuffle' class='option'>Shuffle it back into the deck and draw a new card<br></p>");
+        unbrtut.step13 = true;
+    }
+    }
+    if (unbrtut.step12 != true && unbr.godpresent === true){
+        $("#infocard").append("<p>A God has appeared before you<br></p>");
+        $("#infocard").append("<p id='godshuffle' class='option'>Shuffle it back into the deck and draw a new card<br></p>");
+    }
+}
+
+function tutorialbranches(){
+    if (unbrtut.step13 == true){
+        unbrtut.step12 = false;
+        $("#infocard").append("<p>What would you like to do with this card?<br></p>");
+        if (unbr.sequence.length === 0){
+            $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
+        }
+        else if (unbr.hand[unbr.selected[0]][1] !== unbr.sequence[unbr.sequence.length -1][1]){
+            $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
+        }
+        if (unbr.hand[unbr.selected[0]][1] === 'spirit'){
+            $("#infocard").append("<p id='spiritplay' class='option'>Use spirit power</p>");
+        }
+        $("#infocard").append("<p id='discardplay' class='option'>Discard and draw new card</p>");
+    }
+    if (unbrtut.step10 === true && unbr.hand[unbr.selected[0]][1] === 'spirit'){
+            unbrtut.step11 = true;
+            tutorialchoices();
+        } else if (unbrtut.step10 === true && unbr.hand[unbr.selected[0]][1] != 'spirit') {
+            $("#infocard").empty();
+        $("#infocard").append("<p>Choose the spirit card to use its power.</p>");
+        }
+    if (unbrtut.step8 === true){
+            unbrtut.step9 = true;
+            tutorialchoices();
+        }
+    if (unbrtut.step6 === true && unbr.hand[unbr.selected[0]][0] === 'green'){
+            unbrtut.step7 = true;
+            tutorialchoices();
+        } else if (unbrtut.step6 === true && unbr.hand[unbr.selected[0]][0] != 'green') {
+            $("#infocard").empty();
+        $("#infocard").append("<p>Choose a green leaf card. We could play this purple leaf instead, but we would be giving up our green sequence so far.</p>");
+        }
+    if (unbrtut.step4 === true && unbr.hand[unbr.selected[0]][1] === 'twig'){
+            unbrtut.step5 = true;
+            console.log("step 4 is: " + unbrtut.step4);
+            tutorialchoices();
+        } else if (unbrtut.step4 === true && unbr.hand[unbr.selected[0]][1] != 'twig') {
+            $("#infocard").empty();
+            console.log("why are you being triggered?");
+        $("#infocard").append("<p>Choose the green twig card.</p>");
+        }
+        if (unbrtut.step2 === true){
+            unbrtut.step2 = false;
+            unbrtut.step3 = true;
+            tutorialchoices();
+        }
+        if (unbrtut.step1 === true){
+        tutorialchoices();
+        console.log("testing tutorial");
+    }
+}
+
+function tutorialimmediate(){
+    if(unbrtut.step1 === true){
+        unbrtut.step1 = false;
+        unbrtut.step2 = true;
+        console.log("attempting to call tutorial")
+        tutorialchoices();
+    }
+        if(unbrtut.step3 === true){
+        unbrtut.step3 = false;
+        unbrtut.step4 = true;
+        console.log("attempting to call tutorial from discard function");
+        tutorialchoices();
+    }
+        if(unbrtut.step5 === true){
+        unbrtut.step5 = false;
+        unbrtut.step6 = true;
+        unbrtut.step4 = false;
+        tutorialchoices();
+    }
+        if(unbrtut.step7 === true){
+        unbrtut.step7 = false;
+        unbrtut.step8 = true;
+        unbrtut.step6 = false;
+        tutorialchoices();
+    }
+    if(unbrtut.step9 === true){
+        unbrtut.step9 = false;
+        unbrtut.step10 = true;
+        unbrtut.step8 = false;
+        tutorialchoices();
+    }
+    if(unbrtut.step11 === true){
+        unbrtut.step11 = false;
+        unbrtut.step12 = true;
+        unbrtut.step10 = false;
+        tutorialchoices();
+    }
+}
+
+$(document).on('click', '.donetutorial', function() {
+    $("#infocard").empty();
+    $("#hand").empty()
+    $("#sequence").empty();
+    unbr.playingtutorial = false;
+    unbrtut.step13 = false;
+    $("#infocard").append("<p id=ending style=display:none;>And really, that's all there is to the game. Try to get 3 colours in a row, try to use spirits wisely, and try to negotiate ghosts as best as you can. Go play easy to get a feeling for how the game plays out. Have fun!");
+    $("#ending").fadeIn(500);
+    $("#infocard").append("<p class='option' id='menu'>Main Menu</p>");
+});
+
 
 $(function(){
     unbr.init();
+    unbrtut.init();
 });
+
+
+
