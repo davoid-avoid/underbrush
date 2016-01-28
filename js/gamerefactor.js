@@ -1447,6 +1447,7 @@ function tutorialchoices(){
         $("#infocard").append("<p id='discardplay' class='option'>Discard and draw new card</p>");
     }
     if (unbrtut.step4 === true){
+        unbrtut.step2 = false;
         console.log("step 4");
         $("#infocard").empty();
         $("#infocard").append("<p>Hey look! A twig! Let's select that and play that into our sequence. This is a legal move because it is not the same symbol as the leaf.</p>");
@@ -1590,7 +1591,6 @@ function tutorialbranches(){
         $("#infocard").append("<p>Choose the green twig card.</p>");
         }
         if (unbrtut.step2 === true){
-            unbrtut.step2 = false;
             unbrtut.step3 = true;
             tutorialchoices();
         }
