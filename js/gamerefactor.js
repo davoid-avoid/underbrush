@@ -3,6 +3,7 @@ var hardwin = 0;
 var caption = false;
 var interval = 0;
 var doomtimer = false;
+var baileyplay = false;
 
 var unbr = {};
 var unbrtut = {};
@@ -138,42 +139,35 @@ function endgamecheck() {
     }
     if (unbr.drawdeck.length === godcount && spiritcount === 0){
         loss();
-        console.log("loss condition 0");
     }
     else if (unbr.drawdeck.length === 0 && unbr.hand[0][1] === 'god' && spiritcount === 0 || unbr.drawdeck.length >= 1 && godcount == unbr.drawdeck.length && spiritcount === 0){
         loss();
-        console.log("loss condition 1");
     }
     else if (unbr.drawdeck.length > 0 && unbr.hand[0][1] === 'god' && spiritcount >= 1){
             for (var sh = 0; sh <= unbr.hand.length - 1; sh++){
                 if (unbr.hand[sh][1] == 'spirit'){
                     if (unbr.hand[sh][0] === unbr.hand[0][0]){
-                        console.log("correct spirit detected");
                         rightSpirit = true;
                     }
                 }
             }
             if (rightSpirit === false){
                 loss();
-                console.log("loss condition 2");
             }
         }
     else if (unbr.drawdeck.length === 0 && unbr.hand[0][1] === 'god' && spiritcount >= 1){
             for (var sh = 0; sh <= unbr.hand.length - 1; sh++){
                 if (unbr.hand[sh][1] == 'spirit'){
                     if (unbr.hand[sh][0] === unbr.hand[0][0]){
-                        console.log("correct spirit detected");
                         rightSpirit = true;
                     }
                 }
             }
             if (rightSpirit === false){
                 loss();
-                console.log("loss condition 2");
             }
         }
     unbr.donecheck = true;
-    console.log("done endgame check");
 }
 
 //notifies the user of stuff, opens modal box
@@ -197,6 +191,9 @@ function notificationcloseclick(){
 
 function drawcard() {
     cardcount(); 
+    if (baileyplay === true){
+        console.log("The drawdeck consists of: " + unbr.drawdeck);
+    }
     if (unbr.limbo.length > 0){
         if (unbr.drawdeck.length < (5 + (8 - unbr.score))) {
             limboshuffle();
@@ -1422,11 +1419,9 @@ $(document).on('click', '#tutorial', function() {
     unbr.lamppercent = 1;
     lampfade();
     drawhandstart();
-    $("#infocard").append("<p>Hi! Welcome to Underbrush. In this game, you are lost a forest of Gods, Spirits and Ghosts. You will need to find 8 Gods before the deck runs out to win. To do this, you need to play 3 cards of the same colour in a row. The trick being that you can never play the same symbol twice in a row. The cards above are your hard. Try clicking one of them.<p>");
+    $("#infocard").append("<p>Hi! Welcome to Underbrush. In this game, you are lost a forest of Gods, Spirits and Ghosts. You will need to find 8 Gods before the deck runs out to win. To do this, you need to play 3 cards of the same colour in a row. The trick being that you can never play the same symbol twice in a row. The cards above are your hand. Try clicking one of them.<p>");
     unbrtut.step1 = true;
-    console.log(unbrtut.step1);
     unbr.playingtutorial = true;
-    console.log(unbr.playingtutorial + " playing tutorial");
 });
 
 function tutorialchoices(){
@@ -1448,13 +1443,11 @@ function tutorialchoices(){
     }
     if (unbrtut.step4 === true){
         unbrtut.step2 = false;
-        console.log("step 4");
         $("#infocard").empty();
         $("#infocard").append("<p>Hey look! A twig! Let's select that and play that into our sequence. This is a legal move because it is not the same symbol as the leaf.</p>");
 
     }
     if (unbrtut.step5 === true  && unbr.hand[unbr.selected[0]][1] === 'twig'){
-        console.log("step 5");
         $("#infocard").empty();
         $("#infocard").append("<p>If we play this green twig into our sequence, we will be 2/3 of the way to scoring our first God.</p>");
         $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
@@ -1462,19 +1455,16 @@ function tutorialchoices(){
         tutoriachoices();
     }
     if (unbrtut.step6 === true){
-        console.log("step 6");
         $("#infocard").empty();
         $("#infocard").append("<p>Great! Now we can just play another leaf to score our first God.</p>");
     }
     if (unbrtut.step7 === true){
-        console.log("step 7");
         $("#infocard").empty();
         $("#infocard").append("<p>If we play this green leaf into our sequence, we will have scored our first God of the game.</p>");
         $("#infocard").append("<p id='sequenceplay' class='option'>Play in sequence</p>");
     }
     if (unbrtut.step8 === true){
         unbrtut.step7 = false;
-        console.log("step 8");
         $("#infocard").empty();
         $("#infocard").append("<p>Fantastic! We've scored our first God! We need to score 8 of them, before the deck runs out of cards, to win. There are 2 of each colour. There are 4 colours in the game. We can't do much at the moment because we only have leaves. We could play a twig if we had one, even one of a different colour! But we unfortunately do not, so discard something else and maybe we will get something more useful.</p>");
     }
@@ -1583,11 +1573,9 @@ function tutorialbranches(){
         }
     if (unbrtut.step4 === true && unbr.hand[unbr.selected[0]][1] === 'twig'){
             unbrtut.step5 = true;
-            console.log("step 4 is: " + unbrtut.step4);
             tutorialchoices();
         } else if (unbrtut.step4 === true && unbr.hand[unbr.selected[0]][1] != 'twig') {
             $("#infocard").empty();
-            console.log("why are you being triggered?");
         $("#infocard").append("<p>Choose the green twig card.</p>");
         }
         if (unbrtut.step2 === true){
@@ -1596,7 +1584,6 @@ function tutorialbranches(){
         }
         if (unbrtut.step1 === true){
         tutorialchoices();
-        console.log("testing tutorial");
     }
 }
 
@@ -1604,13 +1591,11 @@ function tutorialimmediate(){
     if(unbrtut.step1 === true){
         unbrtut.step1 = false;
         unbrtut.step2 = true;
-        console.log("attempting to call tutorial")
         tutorialchoices();
     }
         if(unbrtut.step3 === true){
         unbrtut.step3 = false;
         unbrtut.step4 = true;
-        console.log("attempting to call tutorial from discard function");
         tutorialchoices();
     }
         if(unbrtut.step5 === true){
