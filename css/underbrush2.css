@@ -125,6 +125,12 @@ html, body {
 	text-align: center;
 }
 
+.cardPreviewHandler {
+	width: 100%;
+	position: relative;
+	height: 170px;
+}
+
 #cardpreviewinstruction {
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
@@ -132,6 +138,16 @@ html, body {
 	width: 100%;
 	margin-bottom: 15px;
 }
+
+#carddropinstruction {
+	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	position: relative;
+	width: 100%;
+	margin-bottom: 15px;
+	margin-top: 30px;
+}
+
 
 #okdone {
 	text-align: center;

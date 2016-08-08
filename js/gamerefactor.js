@@ -502,30 +502,66 @@ function cardshift(){
 //drops next 5 unseen cards, shuffles gods or ghosts back into the deck
 
 function dropunseen(){
+    var legitCounter = 0;
+    var illegalCounter = 0;
     for(i = 0; i <= 4; i++){
         if (unbr.drawdeck[0][1] === 'god' || unbr.drawdeck[0][0] === 'ghost') {
             unbr.limbo.unshift(unbr.drawdeck[0]);
             unbr.drawdeck.shift();
-            i--;
+            console.log("not dropping " + unbr.limbo[0]);
+            console.log("limbo: " + unbr.limbo);
+            illegalCounter++;
         } else {
         unbr.discard.unshift(unbr.drawdeck[0]);
         unbr.drawdeck.shift();
-        limboshuffle();
+        console.log("dropping: " + unbr.discard[0]);
+        legitCounter++;
     }
     }
     $("#preview").empty();
     $("#preview").append("<div id ='cardpreviewinstruction'>Here are the cards you dropped</div><br>");
-        for (i = 0; i <= 4; i++){
+    $("#preview").append("<div class='cardPreviewHandler' id='cardPreviewHandler1'></div>")
+        for (i = 0; i <= legitCounter - 1; i++){
             if (caption === false){
-        $("#preview").append("<div class ='cardprev " + unbr.discard[i][0] + " " + unbr.discard[i][1] +"'></div>");
+        $("#cardPreviewHandler1").append("<div class ='cardprev " + unbr.discard[i][0] + " " + unbr.discard[i][1] +"'></div>");
         }
         if (caption === true){
-            $("#preview").append("<div class ='cardprev " + unbr.discard[i][0] + " " + unbr.discard[i][1] +"'><p>" + unbr.discard[i][0] + "</p></div>");
+            $("#cardPreviewHandler1").append("<div class ='cardprev " + unbr.discard[i][0] + " " + unbr.discard[i][1] +"'><p>" + unbr.discard[i][0] + "</p></div>");
         }
+    }
+    if (illegalCounter > 0){
+    console.log("limbo: " + unbr.limbo);
+    $("#preview").append("<div id='carddropinstruction'>Here are the cards you could not drop</div><br>");
+        $("#preview").append("<div class='cardPreviewHandler' id='cardPreviewHandler2'></div>")
+      for (i = 0; i < (unbr.limbo.length); i++){
+         if (caption === false){
+            $("#cardPreviewHandler2").append("<div class ='cardprev " + unbr.limbo[i][0] + " " + unbr.limbo[i][1] +"'></div>");
+            }
+            if (caption === true){
+                $("#cardPreviewHandler2").append("<div class ='cardprev " + unbr.limbo[i][0] + " " + unbr.limbo[i][1] +"'><p>" + unbr.limbo[i][0] + "</p></div>");
+            }
+        }
+    }
         if (caption === false){
         notificationcloseclick();
     }
         if (caption === true){
+            if (illegalCounter > 0){
+    $.fancybox({
+    'autoSize' : false,
+    'transitionIn': 'elastic',
+    'transitionOut': 'elastic',
+    'speedIn': 500,
+    'speedOut': 300,
+    'width' : 680,
+    'height' : 560,
+    'topRatio' : 0.85,
+    'href' : '#preview',
+    'closeBtn' : false,
+    'modal' : false,
+    'closeClick' : true
+    });
+    } else {
     $.fancybox({
     'autoSize' : false,
     'transitionIn': 'elastic',
@@ -540,8 +576,9 @@ function dropunseen(){
     'modal' : false,
     'closeClick' : true
     });
-        }
+
     }
+        }
     $("#infocard").empty();
     cardcount();
     unbr.discard.unshift(unbr.hand[0]);
