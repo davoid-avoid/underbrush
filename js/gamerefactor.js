@@ -40,6 +40,7 @@ unbr.init = function(){
     unbr.lamppercent = 1;
     unbr.lamptotal = 100;
     unbr.playingeasy = false;
+    unbr.playingnormal = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
     unbr.playingtutorial = false;
@@ -240,11 +241,14 @@ function win() {
     if (unbr.playinghard === true){
         hardwin++;
     }
-    if (hardwin === 1 && unbr.playingeasy === false && unbr.playingmaster === false){
+    if (hardwin === 1 && unbr.playingeasy === false && unbr.playingnormal === false && unbr.playingmaster === false){
         $("#cardpreviewinstruction").append("<p><b>Master Mode and Doom Timer unlocked!</b></p>");
     }
     if (unbr.playingeasy === true){
         $("#infocard").append("<br><p class='option' id='easy'>Play Again?</p>");    
+    }
+    if (unbr.playingnormal === true){
+        $("#infocard").append("<br><p class='option' id='normal'>Play Again?</p>");    
     }
     if (unbr.playinghard === true){
         $("#infocard").append("<br><p class='option' id='hard'>Play Again?</p>");   
@@ -271,6 +275,9 @@ function loss() {
 
     if (unbr.playingeasy === true){
         $("#infocard").append("<br><p class='option' id='easy'>Play Again?</p>");    
+    }
+    if (unbr.playingnormal === true){
+        $("#infocard").append("<br><p class='option' id='normal'>Play Again?</p>");    
     }
     if (unbr.playinghard === true){
         $("#infocard").append("<br><p class='option' id='hard'>Play Again?</p>");    
@@ -1076,8 +1083,7 @@ $(document).on('click', '#deadend', function() {
     discardhand();
 });
 
-
-function hard(){
+function normal(){
     $("#hand").empty();
     $("#sequence").empty();
     $("#cardsremaining").empty();
@@ -1085,34 +1091,32 @@ function hard(){
     $("#infocard").empty();
     
     unbr.init();
-    unbr.hardplay = true;
+    unbr.hardplay = false;
     function addCards(cardType,numOfCards){
         for (var i = numOfCards; i >= 1; i--) {
             unbr.drawdeck.push(cardType);
         };
     }
 
-    addCards(['blue', 'leaf'], 7);
-    addCards(['blue', 'twig'],4);
-    addCards(['blue', 'spirit'],2);
-    addCards(['blue', 'god'],2);
-
-    addCards(['purple', 'leaf'],8);
-    addCards(['purple', 'twig'],4);
-    addCards(['purple', 'spirit'],2);
-    addCards(['purple', 'god'],2);
-
-    addCards(['green', 'leaf'],9);
-    addCards(['green', 'twig'],4);
-    addCards(['green', 'spirit'],2);
-    addCards(['green', 'god'],2);
-
     addCards(['orange', 'leaf'],6);
     addCards(['orange', 'twig'],4);
-    addCards(['orange', 'spirit'],2);
+    addCards(['orange', 'spirit'],3);
     addCards(['orange', 'god'],2);
 
-    addCards(['yellow', 'spirit'],4);
+    addCards(['green', 'leaf'],7);
+    addCards(['green', 'twig'],4);
+    addCards(['green', 'spirit'],3);
+    addCards(['green', 'god'],2);
+
+    addCards(['blue', 'leaf'],8);
+    addCards(['blue', 'twig'],4);
+    addCards(['blue', 'spirit'],3);
+    addCards(['blue', 'god'],2);
+
+    addCards(['purple', 'leaf'],9);
+    addCards(['purple', 'twig'],4);
+    addCards(['purple', 'spirit'],3);
+    addCards(['purple', 'god'],2);
 
     addCards(['ghost', 'bad'],10);
 
@@ -1133,25 +1137,109 @@ function easy(){
         };
     }
 
-    addCards(['blue', 'leaf'], 7);
-    addCards(['blue', 'twig'],4);
-    addCards(['blue', 'spirit'],4);
-    addCards(['blue', 'god'],2);
-
-    addCards(['purple', 'leaf'],8);
-    addCards(['purple', 'twig'],4);
-    addCards(['purple', 'spirit'],4);
-    addCards(['purple', 'god'],2);
-
-    addCards(['green', 'leaf'],9);
-    addCards(['green', 'twig'],4);
-    addCards(['green', 'spirit'],4);
-    addCards(['green', 'god'],2);
-
     addCards(['orange', 'leaf'],6);
     addCards(['orange', 'twig'],4);
     addCards(['orange', 'spirit'],4);
     addCards(['orange', 'god'],2);
+
+    addCards(['green', 'leaf'],7);
+    addCards(['green', 'twig'],4);
+    addCards(['green', 'spirit'],4);
+    addCards(['green', 'god'],2);
+
+    addCards(['blue', 'leaf'],8);
+    addCards(['blue', 'twig'],4);
+    addCards(['blue', 'spirit'],4);
+    addCards(['blue', 'god'],2);
+
+    addCards(['purple', 'leaf'],9);
+    addCards(['purple', 'twig'],4);
+    addCards(['purple', 'spirit'],4);
+    addCards(['purple', 'god'],2);
+
+    addCards(['ghost', 'bad'],10);
+
+}
+
+function hard(){
+    $("#hand").empty();
+    $("#sequence").empty();
+    $("#cardsremaining").empty();
+    $("#scorecard").empty();
+    $("#infocard").empty();
+    
+    unbr.init();
+    unbr.hardplay = true;
+    function addCards(cardType,numOfCards){
+        for (var i = numOfCards; i >= 1; i--) {
+            unbr.drawdeck.push(cardType);
+        };
+    }
+
+    addCards(['orange', 'leaf'],6);
+    addCards(['orange', 'twig'],4);
+    addCards(['orange', 'spirit'],2);
+    addCards(['orange', 'god'],2);
+
+    addCards(['green', 'leaf'],7);
+    addCards(['green', 'twig'],4);
+    addCards(['green', 'spirit'],2);
+    addCards(['green', 'god'],2);
+
+    addCards(['blue', 'leaf'],8);
+    addCards(['blue', 'twig'],4);
+    addCards(['blue', 'spirit'],2);
+    addCards(['blue', 'god'],2);
+
+    addCards(['purple', 'leaf'],9);
+    addCards(['purple', 'twig'],4);
+    addCards(['purple', 'spirit'],2);
+    addCards(['purple', 'god'],2);
+
+    addCards(['yellow', 'spirit'],4);
+
+    addCards(['ghost', 'bad'],10);
+
+}
+
+function master(){
+    $("#hand").empty();
+    $("#sequence").empty();
+    $("#cardsremaining").empty();
+    $("#scorecard").empty();
+    $("#infocard").empty();
+    
+    unbr.init();
+
+    function addCards(cardType,numOfCards){
+        for (var i = numOfCards; i >= 1; i--) {
+            unbr.drawdeck.push(cardType);
+        };
+    }
+
+    addCards(['orange', 'leaf'],5);
+    addCards(['orange', 'twig'],4);
+    addCards(['orange', 'spirit'],2);
+    addCards(['orange', 'god'],2);
+
+    addCards(['green', 'leaf'],6);
+    addCards(['green', 'twig'],4);
+    addCards(['green', 'spirit'],2);
+    addCards(['green', 'god'],2);
+
+    addCards(['blue', 'leaf'], 7);
+    addCards(['blue', 'twig'],4);
+    addCards(['blue', 'spirit'],2);
+    addCards(['blue', 'god'],2);
+
+    addCards(['purple', 'leaf'],8);
+    addCards(['purple', 'twig'],4);
+    addCards(['purple', 'spirit'],2);
+    addCards(['purple', 'god'],2);
+
+    addCards(['yellow', 'spirit'],3);
+
+    addCards(['dead', 'end'],6);
 
     addCards(['ghost', 'bad'],10);
 
@@ -1195,59 +1283,14 @@ function tutorial(){
     addCards(['purple', 'god'],1);
     addCards(['blue', 'god'],1);
     addCards(['orange', 'god'],1);
-        addCards(['purple', 'leaf'],1);
+    addCards(['purple', 'leaf'],1);
     addCards(['blue', 'leaf'],1);
     addCards(['purple', 'twig'],1);
     addCards(['orange', 'twig'],1);
-        addCards(['purple', 'leaf'],1);
+    addCards(['purple', 'leaf'],1);
     addCards(['blue', 'leaf'],1);
     addCards(['purple', 'twig'],1);
     addCards(['orange', 'twig'],1);
-
-
-
-}
-
-function master(){
-    $("#hand").empty();
-    $("#sequence").empty();
-    $("#cardsremaining").empty();
-    $("#scorecard").empty();
-    $("#infocard").empty();
-    
-    unbr.init();
-
-    function addCards(cardType,numOfCards){
-        for (var i = numOfCards; i >= 1; i--) {
-            unbr.drawdeck.push(cardType);
-        };
-    }
-
-    addCards(['blue', 'leaf'], 6);
-    addCards(['blue', 'twig'],4);
-    addCards(['blue', 'spirit'],2);
-    addCards(['blue', 'god'],2);
-
-    addCards(['purple', 'leaf'],7);
-    addCards(['purple', 'twig'],4);
-    addCards(['purple', 'spirit'],2);
-    addCards(['purple', 'god'],2);
-
-    addCards(['green', 'leaf'],8);
-    addCards(['green', 'twig'],4);
-    addCards(['green', 'spirit'],2);
-    addCards(['green', 'god'],2);
-
-    addCards(['orange', 'leaf'],5);
-    addCards(['orange', 'twig'],4);
-    addCards(['orange', 'spirit'],2);
-    addCards(['orange', 'god'],2);
-
-    addCards(['yellow', 'spirit'],3);
-
-    addCards(['dead', 'end'],6);
-
-    addCards(['ghost', 'bad'],10);
 
 }
 
@@ -1258,6 +1301,25 @@ $(document).on('click', '#easy', function() {
     $("#lamp1").fadeIn(300);
     easy();
     unbr.playingeasy = true;
+    if (doomtimer === true){
+        clearInterval(interval);
+        unbr.counter = 5;
+        counter();
+    }
+    shuffle(unbr.drawdeck);
+    unbr.lamptotal = unbr.drawdeck.length - 5;
+    unbr.lamppercent = 1;
+    lampfade();
+    drawhandstart();
+});
+
+$(document).on('click', '#normal', function() {
+    $("#infobox").empty();
+    $("#topmenu").fadeIn(300);
+    $("#lamp2").fadeIn(800);
+    $("#lamp1").fadeIn(300);
+    normal();
+    unbr.playingnormal = true;
     if (doomtimer === true){
         clearInterval(interval);
         unbr.counter = 5;
@@ -1322,14 +1384,15 @@ $(document).on('click', '#menubutton', function() {
         clearInterval(interval);
     }
     unbr.playingeasy = false;
+    unbr.playingnormal = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
     unbr.playingtutorial = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='normal' class='option'>Normal Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     } else {
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='normal' class='option'>Normal Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     }
     if (doomtimer === false && hardwin >= 1){
         $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
@@ -1361,14 +1424,15 @@ $(document).on('click', '#menu', function() {
         clearInterval(interval);
     }
     unbr.playingeasy = false;
+    unbr.playingnormal = false;
     unbr.playinghard = false;
     unbr.playingmaster = false;
     unbr.playingtutorial = false;
     $("#hand").append("<center><img src='img/logo.png' style='margin-top: -60px;'></center><br><div id='title'>UNDERBRUSH</div>");
     if (hardwin === 0){
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='normal' class='option'>Normal Mode</p><p id='hard' class='option'>Hard Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     } else {
-        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
+        $("#infocard").append("<p id='easy' class='option'>Easy Mode</p><p id='normal' class='option'>Normal Mode</p><p id='hard' class='option'>Hard Mode</p><p id='master' class='option'>Master Mode</p><p id='tutorial' class='option'>Tutorial</p>");
     }
     if (doomtimer === false && hardwin >= 1){
         $("#infocard").append("<p id='doomon' class='option'>Turn Doom Timer On</p>");
@@ -1439,7 +1503,7 @@ function doomcount(){
 }
 
 function counter(){
-if (unbr.playingeasy === true || unbr.playinghard === true || unbr.playingmaster === true){
+if (unbr.playingeasy === true || unbr.playingnormal === true || unbr.playinghard === true || unbr.playingmaster === true){
     doomcount();
 }
 }
@@ -1677,6 +1741,3 @@ $(function(){
     unbr.init();
     unbrtut.init();
 });
-
-
-
