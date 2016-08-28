@@ -1,7 +1,7 @@
 // initial variables
 
 var doom = 10
-var hardwin = 1;
+var hardwin = 0;
 var interval = 0;
 
 var caption = false;
@@ -1227,7 +1227,7 @@ function addCards(cardType,numOfCards){
     for (var i = numOfCards; i >= 1; i--) {
         unbr.drawdeck.push(cardType);
     }
-    if (cardlist === true){    
+    if (cardlist === true && unbr.playingtutorial !== true){    
         $("#distribution").append("<div class='cardthumb " + cardType[0] + " " + "'></div>");
         $("#distribution").append("<div id=distribution>" + cardType[1] + " " + numOfCards);
     }
