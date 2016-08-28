@@ -1,7 +1,7 @@
 html, body {
-    margin: 0;
-    height: 100%;
-    width: 100%;
+	margin: 0;
+	height: 100%;
+	width: 100%;
 }
 
 #title {
@@ -69,11 +69,11 @@ html, body {
 
 #scorecard {
 	height: 20px;
-    font-family: 'Open Sans', sans-serif;
-    position: absolute;
-    float: left;
-    color: white;
-    margin-left: 60px;
+	font-family: 'Open Sans', sans-serif;
+	position: absolute;
+	float: left;
+	color: white;
+	margin-left: 60px;
 }
 
 #scorecard img{
@@ -89,6 +89,29 @@ html, body {
 	color: white;
 	float: left;
 	position: relative;
+}
+
+#distribution {
+	position: relative;
+	top: 23;
+	width: 55px;
+	float: left;
+	margin-left: 35px;
+	margin-bottom: -12px;
+	text-align: left;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 10pt;
+}
+
+.cardthumb {
+	position: relative;
+	top: 40;
+	width: 10px;
+	height: 15px;
+	float: left;
+	margin-left: 15px;
+	margin-right: 15px;
+	border-radius: 3px;
 }
 
 .card {
@@ -110,7 +133,7 @@ html, body {
 
 .unrotate {
 	-ms-transform: rotateY(90deg);
-   	-webkit-transform: rotateY(90deg);
+	-webkit-transform: rotateY(90deg);
 	transform: rotateY(90deg);
 }
 
@@ -147,7 +170,6 @@ html, body {
 	margin-bottom: 15px;
 	margin-top: 30px;
 }
-
 
 #okdone {
 	text-align: center;
@@ -235,7 +257,6 @@ html, body {
 	width: 180px;
 }
 
-
 .green {
 	background-color: YellowGreen;
 }
@@ -276,7 +297,7 @@ html, body {
 	background-image: URL("../img/god2.png");
 }
 
-.bad {
+.ghost {
 	background-image: URL("../img/ghost2.png");
 }
 
@@ -284,8 +305,8 @@ html, body {
 	background-color: DarkSlateGray;
 }
 
-.end {
-	background-image: URL("../img/end.png");
+.trap {
+	background-image: URL("../img/trap.png");
 }
 
 .option {
@@ -294,8 +315,8 @@ html, body {
 	padding: 5px;
 	transition: all 0.6s ease;
 	width: 270px;
-    margin: 10px auto;
-    cursor: pointer;
+	margin: 10px auto;
+	cursor: pointer;
 }
 
 .option:hover {
@@ -322,14 +343,14 @@ html, body {
 	margin-top: 8px;
 	background-image: URL("../img/menu.png");
 	-webkit-transition: -webkit-transform .8s ease-in-out;
-    -ms-transition: -ms-transform .8s ease-in-out;
-    transition: transform .8s ease-in-out;
+	-ms-transition: -ms-transform .8s ease-in-out;
+	transition: transform .8s ease-in-out;
 }
 
 #menubutton:hover {
-    -webkit-transform:rotate(360deg);
-    -moz-transform:rotate(360deg);
-    -o-transform:rotate(360deg);
+	-webkit-transform:rotate(360deg);
+	-moz-transform:rotate(360deg);
+	-o-transform:rotate(360deg);
 }
 
 #lamp1 {
@@ -357,14 +378,12 @@ html, body {
 
 #doomcount{
 	position: absolute;
-	top: 30;
-	left: 10;
+	top: 150;
+	right: 30;
 	opacity: 100%;
 	width: 100px;
-	height: 100px;
+	height: 150px;
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 30pt;
 }
-
-
