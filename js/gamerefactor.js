@@ -5,7 +5,7 @@ var hardwin = 0;
 var interval = 0;
 
 var caption = false;
-var cardlist = true;
+var cardlist = false;
 var doomtimer = false;
 var baileyplay = false;
 
@@ -1481,6 +1481,8 @@ function menuoptions(){
 
 $(document).on('click', '#menubutton', function() {
     menuoptions();
+    unbr.playingtutorial = false;
+    resetTutorial();
 });
 
 $(document).on('click', '#menu', function() {
@@ -1774,3 +1776,18 @@ $(function(){
     unbr.init();
     unbrtut.init();
 });
+
+function resetTutorial(){
+    unbrtut.step1 = false;
+    unbrtut.step2 = false;
+    unbrtut.step3 = false;
+    unbrtut.step4 = false;
+    unbrtut.step5 = false;
+    unbrtut.step6 = false;
+    unbrtut.step7 = false;
+    unbrtut.step8 = false;
+    unbrtut.step9 = false;
+    unbrtut.step10 = false;
+    unbrtut.step11 = false;
+    unbrtut.step12 = false;
+}
