@@ -67,6 +67,7 @@ unbrtut.init = function(){
     unbrtut.step10 = false;
     unbrtut.step11 = false;
     unbrtut.step12 = false;
+    unbrtut.step13 = false;
 }
 
 
@@ -1487,6 +1488,8 @@ $(document).on('click', '#menubutton', function() {
 
 $(document).on('click', '#menu', function() {
     menuoptions();
+    unbr.playingtutorial = false;
+    resetTutorial();
 });
 
 $(document).on('click', '#captionon', function() {
@@ -1790,4 +1793,5 @@ function resetTutorial(){
     unbrtut.step10 = false;
     unbrtut.step11 = false;
     unbrtut.step12 = false;
+    unbrtut.step13 = false;
 }
