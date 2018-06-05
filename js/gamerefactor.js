@@ -1458,7 +1458,7 @@ function menuoptions(){
     if (hardwin !== 0){
         $("#infocard").append("<p id='master' class='option'>Master Mode</p>");
     }
-    $("#infocard").append("<p id='tutorial' class='option'>Tutorial</p><p id='rules' class='option'>Rules</p>");
+    $("#infocard").append("<br><p id='tutorial' class='option'>Tutorial</p><p id='rules' class='option'>Rules</p><br>");
     if (hardwin !== 0){
         if (doomtimer === true){
             $("#infocard").append("<p id='doomoff' class='option'>Turn Doom Timer Off</p>");
